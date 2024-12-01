@@ -1,0 +1,25 @@
+#[package]
+#name = "adventofcode-2024"
+#version.workspace = true
+#edition.workspace = true
+
+[workspace]
+members = [
+    "day_01"
+]
+
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+
+[workspace.lints.clippy]
+# Pedantic
+pedantic = "warn"
+#module_name_repetitions = "allow"
+#missing_errors_doc = "allow"
+#missing_panics_doc = "allow"
+# Nursery
+nursery = "warn"
+#fallible_impl_from = "allow"
