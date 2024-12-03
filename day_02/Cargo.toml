@@ -1,0 +1,7 @@
+[package]
+name = "day_02"
+version.workspace = true
+edition.workspace = true
+
+[lints]
+workspace = true
