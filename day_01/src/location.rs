@@ -18,6 +18,16 @@ impl LocationLists {
             .map(|(&left, &right)| left.abs_diff(right))
             .sum()
     }
+
+    pub fn similarity_score(&self) -> u32 {
+        self.left
+            .iter()
+            .map(|&left| {
+                let count = self.right.iter().filter(|&&right| left == right).count();
+                left * u32::try_from(count).unwrap()
+            })
+            .sum()
+    }
 }
 
 impl FromStr for LocationLists {
