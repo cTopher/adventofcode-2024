@@ -17,22 +17,25 @@ fn part_1(input: &str) -> u32 {
 
 fn part_2(input: &str) -> u32 {
     let computer: computer::Computer = input.parse().unwrap();
-    computer.calculate_sum_of_multiplications()
+    computer.calculate()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    const EXAMPLE: &str = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
+    const EXAMPLE_1: &str =
+        "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
+    const EXAMPLE_2: &str =
+        "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
 
     #[test]
     fn example_1() {
-        assert_eq!(part_1(EXAMPLE), 161);
+        assert_eq!(part_1(EXAMPLE_1), 161);
     }
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE_2), 48);
     }
 }
