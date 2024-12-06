@@ -1,6 +1,7 @@
 #![feature(never_type)]
+#![feature(unsigned_signed_diff)]
 
-use crate::report::Reports;
+use crate::report::{Report, Reports};
 use std::fs;
 
 mod report;
@@ -13,12 +14,12 @@ fn main() {
 
 fn part_1(input: &str) -> usize {
     let reports: Reports = input.parse().unwrap();
-    reports.count_safe()
+    reports.count(Report::is_safe)
 }
 
 fn part_2(input: &str) -> usize {
     let reports: Reports = input.parse().unwrap();
-    reports.count_safe()
+    reports.count(Report::is_safe_using_problem_dampener)
 }
 
 #[cfg(test)]
@@ -34,6 +35,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 2);
+        assert_eq!(part_2(EXAMPLE), 4);
     }
 }
