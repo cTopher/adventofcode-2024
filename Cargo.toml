@@ -7,6 +7,7 @@
 members = [
     "day_01",
     "day_02",
+    "day_03",
 ]
 
 resolver = "3"
@@ -16,11 +17,8 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace.lints.clippy]
-# Pedantic
 pedantic = "warn"
-#module_name_repetitions = "allow"
-#missing_errors_doc = "allow"
-#missing_panics_doc = "allow"
-# Nursery
 nursery = "warn"
-#fallible_impl_from = "allow"
+
+[workspace.dependencies]
+regex = "1.11"
