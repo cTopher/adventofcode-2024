@@ -1,0 +1,9 @@
+[package]
+name = "matrix"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+
+[lints]
+workspace = true

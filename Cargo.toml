@@ -5,9 +5,11 @@
 
 [workspace]
 members = [
+    "matrix",
     "day_01",
     "day_02",
     "day_03",
+    "day_04",
 ]
 
 resolver = "3"
@@ -22,3 +24,4 @@ nursery = "warn"
 
 [workspace.dependencies]
 regex = "1.11"
+matrix = { path = "matrix" }
