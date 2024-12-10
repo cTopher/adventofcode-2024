@@ -17,7 +17,8 @@ fn part_1(input: &str) -> u32 {
 }
 
 fn part_2(input: &str) -> u32 {
-    0
+    let manual: SleighLaunchSafetyManual = input.parse().unwrap();
+    manual.incorrect_middle_pages()
 }
 
 #[cfg(test)]
@@ -33,6 +34,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 123);
     }
 }

@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::str::FromStr;
 
 pub struct SleighLaunchSafetyManual {
@@ -18,12 +19,36 @@ impl SleighLaunchSafetyManual {
         })
     }
 
-    pub(crate) fn correct_middle_pages(&self) -> u32 {
+    pub fn correct_middle_pages(&self) -> u32 {
         self.pages_per_update
             .iter()
             .filter(|pages| self.pages_are_ordered(pages))
             .map(|pages| pages[pages.len() / 2])
             .sum()
+    }
+
+    pub fn incorrect_middle_pages(&self) -> u32 {
+        self.pages_per_update
+            .iter()
+            .filter(|pages| !self.pages_are_ordered(pages))
+            .map(|pages| {
+                let mut pages = pages.clone();
+                pages.sort_by(|a, b| self.compare_pages(*a, *b));
+                pages[pages.len() / 2]
+            })
+            .sum()
+    }
+
+    fn compare_pages(&self, a: u32, b: u32) -> Ordering {
+        if self
+            .page_ordering_rules
+            .iter()
+            .any(|&(before, after)| a == after && b == before)
+        {
+            Ordering::Greater
+        } else {
+            Ordering::Less
+        }
     }
 }
 
