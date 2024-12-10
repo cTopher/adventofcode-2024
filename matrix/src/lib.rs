@@ -68,4 +68,9 @@ impl Direction {
         Self { di: 1, dj: -1 },
         Self { di: 0, dj: -1 },
     ];
+
+    #[must_use]
+    pub const fn new(di: isize, dj: isize) -> Self {
+        Self { di, dj }
+    }
 }

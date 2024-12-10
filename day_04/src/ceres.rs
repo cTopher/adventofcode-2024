@@ -20,7 +20,7 @@ impl WordSearch {
         true
     }
 
-    pub fn count_xmas(&self) -> u32 {
+    pub fn count_xmas(&self) -> usize {
         self.letters
             .enumerate()
             .filter(|&(_, letter)| letter == 'X')
@@ -28,13 +28,34 @@ impl WordSearch {
             .sum()
     }
 
-    fn count_mas_at(&self, pos: Position) -> u32 {
+    pub fn count_x_mas(&self) -> usize {
+        self.letters
+            .enumerate()
+            .filter(|&(pos, letter)| self.is_x_mas(pos, letter))
+            .count()
+    }
+
+    fn is_x_mas(&self, pos: Position, letter: char) -> bool {
+        if letter != 'A' {
+            return false;
+        }
+        let diagonal1 = [Direction::new(-1, -1), Direction::new(1, 1)];
+        let diagonal2 = [Direction::new(-1, 1), Direction::new(1, -1)];
+        [diagonal1, diagonal2].into_iter().all(|diagonal| {
+            let diagonal: Vec<_> = diagonal
+                .into_iter()
+                .filter_map(|dir| pos.checked_add(dir))
+                .filter_map(|pos| self.letters.get(pos))
+                .collect();
+            diagonal.contains(&'M') && diagonal.contains(&'S')
+        })
+    }
+
+    fn count_mas_at(&self, pos: Position) -> usize {
         Direction::ALL
             .into_iter()
             .filter(|&dir| self.is_mas(pos, dir))
             .count()
-            .try_into()
-            .unwrap()
     }
 }
 impl FromStr for WordSearch {
