@@ -1,4 +1,5 @@
 #![feature(never_type)]
+#![feature(exhaustive_patterns)]
 
 mod lab;
 
@@ -12,12 +13,12 @@ fn main() {
 }
 
 fn part_1(input: &str) -> usize {
-    let lab: Lab = input.parse().unwrap();
+    let Ok(lab) = input.parse::<Lab>();
     lab.guard_path().len()
 }
 
 fn part_2(input: &str) -> usize {
-    let lab: Lab = input.parse().unwrap();
+    let Ok(lab) = input.parse::<Lab>();
     lab.looping_obstruction_count()
 }
 
