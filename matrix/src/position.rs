@@ -1,7 +1,7 @@
 use crate::Direction;
 use std::ops::Add;
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct Position {
     pub i: usize,
     pub j: usize,

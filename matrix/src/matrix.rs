@@ -1,4 +1,5 @@
 use crate::Position;
+use std::ops::{Index, IndexMut};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Matrix<T> {
@@ -22,6 +23,29 @@ impl<T: Copy> Matrix<T> {
                 .enumerate()
                 .map(move |(j, &elem)| (Position { i, j }, elem))
         })
+    }
+
+    pub fn map<U: Copy, F: FnMut(T) -> U>(&self, mut f: F) -> Matrix<U> {
+        let elements = self
+            .elements
+            .iter()
+            .map(|row| row.iter().copied().map(&mut f).collect())
+            .collect();
+        Matrix::new(elements)
+    }
+}
+
+impl<T> Index<Position> for Matrix<T> {
+    type Output = T;
+
+    fn index(&self, Position { i, j }: Position) -> &Self::Output {
+        &self.elements[i][j]
+    }
+}
+
+impl<T> IndexMut<Position> for Matrix<T> {
+    fn index_mut(&mut self, Position { i, j }: Position) -> &mut Self::Output {
+        &mut self.elements[i][j]
     }
 }
 

@@ -1,4 +1,4 @@
-use matrix::{Direction, Matrix, Position};
+use matrix::{Direction, DirectionSet, Matrix, Position};
 use std::str::FromStr;
 
 pub struct Lab {
@@ -22,6 +22,8 @@ impl Lab {
     pub fn guard_path(&self) -> Vec<Position> {
         let mut guard = self.guard;
         let mut path = vec![guard.position];
+        let mut states = self.map.map(|_| DirectionSet::empty());
+        states[guard.position].insert(guard.direction);
         loop {
             let Some(forward) = guard.forward() else {
                 break;
@@ -30,13 +32,17 @@ impl Lab {
                 Some(Tile::Obstruction) => guard.turn_right(),
                 Some(Tile::Empty) => {
                     guard.position = forward;
-                    path.push(guard.position);
                 }
                 None => break,
             }
+            let visited = &mut states[guard.position];
+            if visited.is_empty() {
+                path.push(guard.position);
+            }
+            if !visited.insert(guard.direction) {
+                break;
+            }
         }
-        path.sort_unstable();
-        path.dedup();
         path
     }
 
@@ -49,8 +55,9 @@ impl Lab {
     }
 
     fn obstruction_causes_loop(&self, obstruction: Position) -> bool {
-        let mut states = vec![self.guard];
+        let mut states = self.map.map(|_| DirectionSet::empty());
         let mut guard = self.guard;
+        states[guard.position].insert(guard.direction);
         loop {
             let Some(forward) = guard.forward() else {
                 return false;
@@ -66,10 +73,9 @@ impl Lab {
                     None => return false,
                 }
             }
-            if states.contains(&guard) {
+            if !states[guard.position].insert(guard.direction) {
                 return true;
             }
-            states.push(guard);
         }
     }
 }
