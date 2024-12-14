@@ -13,14 +13,12 @@ fn main() {
 
 fn part_1(input: &str) -> usize {
     let lab: Lab = input.parse().unwrap();
-    let mut path = lab.guard_path();
-    path.sort_unstable();
-    path.dedup();
-    path.len()
+    lab.guard_path().len()
 }
 
 fn part_2(input: &str) -> usize {
-    0
+    let lab: Lab = input.parse().unwrap();
+    lab.looping_obstruction_count()
 }
 
 #[cfg(test)]
@@ -36,6 +34,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 6);
     }
 }

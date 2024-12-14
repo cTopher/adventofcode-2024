@@ -20,8 +20,8 @@ enum Tile {
 
 impl Lab {
     pub fn guard_path(&self) -> Vec<Position> {
-        let mut path = vec![self.guard.position];
         let mut guard = self.guard;
+        let mut path = vec![guard.position];
         loop {
             let Some(forward) = guard.forward() else {
                 break;
@@ -34,11 +34,43 @@ impl Lab {
                 }
                 None => break,
             }
-            // if guard == self.guard {
-            //     break;
-            // }
         }
+        path.sort_unstable();
+        path.dedup();
         path
+    }
+
+    pub fn looping_obstruction_count(&self) -> usize {
+        self.guard_path()
+            .into_iter()
+            .filter(|&position| position != self.guard.position)
+            .filter(|&position| self.obstruction_causes_loop(position))
+            .count()
+    }
+
+    fn obstruction_causes_loop(&self, obstruction: Position) -> bool {
+        let mut states = vec![self.guard];
+        let mut guard = self.guard;
+        loop {
+            let Some(forward) = guard.forward() else {
+                return false;
+            };
+            if forward == obstruction {
+                guard.turn_right();
+            } else {
+                match self.map.get(forward) {
+                    Some(Tile::Obstruction) => guard.turn_right(),
+                    Some(Tile::Empty) => {
+                        guard.position = forward;
+                    }
+                    None => return false,
+                }
+            }
+            if states.contains(&guard) {
+                return true;
+            }
+            states.push(guard);
+        }
     }
 }
 
