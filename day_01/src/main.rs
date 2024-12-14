@@ -12,13 +12,13 @@ fn main() {
 }
 
 fn part_1(input: &str) -> u32 {
-    let mut location_lists: LocationLists = input.parse().unwrap();
+    let Ok(mut location_lists) = input.parse::<LocationLists>();
     location_lists.sort();
     location_lists.total_distance()
 }
 
 fn part_2(input: &str) -> u32 {
-    let location_lists: LocationLists = input.parse().unwrap();
+    let Ok(location_lists) = input.parse::<LocationLists>();
     location_lists.similarity_score()
 }
 

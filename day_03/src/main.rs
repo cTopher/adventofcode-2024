@@ -1,5 +1,7 @@
 #![feature(never_type)]
+#![feature(exhaustive_patterns)]
 
+use crate::computer::Computer;
 use std::fs;
 
 mod computer;
@@ -11,12 +13,12 @@ fn main() {
 }
 
 fn part_1(input: &str) -> u32 {
-    let computer: computer::Computer = input.parse().unwrap();
+    let Ok(computer) = input.parse::<Computer>();
     computer.calculate_sum_of_multiplications()
 }
 
 fn part_2(input: &str) -> u32 {
-    let computer: computer::Computer = input.parse().unwrap();
+    let Ok(computer) = input.parse::<Computer>();
     computer.calculate()
 }
 

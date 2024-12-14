@@ -1,5 +1,6 @@
 #![feature(never_type)]
 #![feature(unsigned_signed_diff)]
+#![feature(exhaustive_patterns)]
 
 use crate::report::{Report, Reports};
 use std::fs;
@@ -13,12 +14,12 @@ fn main() {
 }
 
 fn part_1(input: &str) -> usize {
-    let reports: Reports = input.parse().unwrap();
+    let Ok(reports) = input.parse::<Reports>();
     reports.count(Report::is_safe)
 }
 
 fn part_2(input: &str) -> usize {
-    let reports: Reports = input.parse().unwrap();
+    let Ok(reports) = input.parse::<Reports>();
     reports.count(Report::is_safe_using_problem_dampener)
 }
 

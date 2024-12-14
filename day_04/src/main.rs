@@ -1,5 +1,6 @@
 #![feature(never_type)]
 #![feature(iter_map_windows)]
+#![feature(exhaustive_patterns)]
 
 use crate::ceres::WordSearch;
 use std::fs;
@@ -13,12 +14,12 @@ fn main() {
 }
 
 fn part_1(input: &str) -> usize {
-    let word_search: WordSearch = input.parse().unwrap();
+    let Ok(word_search) = input.parse::<WordSearch>();
     word_search.count_xmas()
 }
 
 fn part_2(input: &str) -> usize {
-    let word_search: WordSearch = input.parse().unwrap();
+    let Ok(word_search) = input.parse::<WordSearch>();
     word_search.count_x_mas()
 }
 

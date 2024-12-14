@@ -1,4 +1,5 @@
 #![feature(never_type)]
+#![feature(exhaustive_patterns)]
 
 use crate::sleigh::SleighLaunchSafetyManual;
 use std::fs;
@@ -12,12 +13,12 @@ fn main() {
 }
 
 fn part_1(input: &str) -> u32 {
-    let manual: SleighLaunchSafetyManual = input.parse().unwrap();
+    let Ok(manual) = input.parse::<SleighLaunchSafetyManual>();
     manual.correct_middle_pages()
 }
 
 fn part_2(input: &str) -> u32 {
-    let manual: SleighLaunchSafetyManual = input.parse().unwrap();
+    let Ok(manual) = input.parse::<SleighLaunchSafetyManual>();
     manual.incorrect_middle_pages()
 }
 
