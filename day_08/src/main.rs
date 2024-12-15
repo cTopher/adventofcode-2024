@@ -13,11 +13,18 @@ fn main() {
 
 fn part_1(input: &str) -> usize {
     let Ok(city) = input.parse::<City>();
-    city.count_antinodes()
+    city.antinodes()
+        .enumerate()
+        .filter(|&(_, is_antinode)| is_antinode)
+        .count()
 }
 
-fn part_2(input: &str) -> u32 {
-    0
+fn part_2(input: &str) -> usize {
+    let Ok(city) = input.parse::<City>();
+    city.resonant_harmonic_antinodes()
+        .enumerate()
+        .filter(|&(_, is_antinode)| is_antinode)
+        .count()
 }
 
 #[cfg(test)]
@@ -33,6 +40,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 34);
     }
 }
