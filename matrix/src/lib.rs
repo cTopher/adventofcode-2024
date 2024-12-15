@@ -1,3 +1,7 @@
+#![feature(strict_overflow_ops)]
+#![feature(unsigned_signed_diff)]
+#![feature(mixed_integer_ops_unsigned_sub)]
+
 mod direction;
 mod matrix;
 mod position;

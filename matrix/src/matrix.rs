@@ -1,4 +1,5 @@
 use crate::Position;
+use std::fmt;
 use std::ops::{Index, IndexMut};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -17,6 +18,10 @@ impl<T: Copy> Matrix<T> {
         self.elements.get(i).and_then(|row| row.get(j).copied())
     }
 
+    pub fn get_mut(&mut self, Position { i, j }: Position) -> Option<&mut T> {
+        self.elements.get_mut(i).and_then(|row| row.get_mut(j))
+    }
+
     pub fn enumerate(&self) -> impl Iterator<Item = (Position, T)> + '_ {
         self.elements.iter().enumerate().flat_map(|(i, row)| {
             row.iter()
@@ -32,6 +37,33 @@ impl<T: Copy> Matrix<T> {
             .map(|row| row.iter().copied().map(&mut f).collect())
             .collect();
         Matrix::new(elements)
+    }
+
+    pub fn print(&self, mut f: impl FnMut(T) -> char) {
+        for row in &self.elements {
+            for (index, &elem) in row.iter().enumerate() {
+                if index > 0 {
+                    print!(" ");
+                }
+                print!("{}", f(elem));
+            }
+            println!();
+        }
+    }
+}
+
+impl<T: fmt::Display> fmt::Display for Matrix<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for row in &self.elements {
+            for (index, elem) in row.iter().enumerate() {
+                if index > 0 {
+                    write!(f, " ")?;
+                }
+                write!(f, "{elem}")?;
+            }
+            writeln!(f)?;
+        }
+        Ok(())
     }
 }
 
