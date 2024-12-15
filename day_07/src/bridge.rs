@@ -1,3 +1,4 @@
+use std::iter::chain;
 use std::str::FromStr;
 
 pub struct Bridge {
@@ -10,22 +11,45 @@ struct Equation {
 }
 
 impl Bridge {
-    pub fn calibration_result(&self) -> u64 {
+    pub fn calibration_result_without_concat(&self) -> u64 {
         self.equations
             .iter()
-            .filter(|e| e.could_be_true())
+            .filter(|e| e.could_be_true_without_concat())
+            .map(|e| e.test_value)
+            .sum()
+    }
+
+    pub fn calibration_result_with_concat(&self) -> u64 {
+        self.equations
+            .iter()
+            .filter(|e| e.could_be_true_with_concat())
             .map(|e| e.test_value)
             .sum()
     }
 }
 
 impl Equation {
-    fn could_be_true(&self) -> bool {
+    fn could_be_true_without_concat(&self) -> bool {
         let mut values = vec![self.numbers[0]];
         for &number in &self.numbers[1..] {
             let add = values.iter().map(|v| v + number);
             let mul = values.iter().map(|v| v * number);
-            values = add.chain(mul).filter(|&v| v <= self.test_value).collect();
+            values = chain(add, mul).filter(|&v| v <= self.test_value).collect();
+        }
+        values.contains(&self.test_value)
+    }
+
+    fn could_be_true_with_concat(&self) -> bool {
+        let mut values = vec![self.numbers[0]];
+        for &number in &self.numbers[1..] {
+            let add = values.iter().map(|v| v + number);
+            let mul = values.iter().map(|v| v * number);
+            let concat = values.iter().map(|&v| concat(v, number));
+            values = add
+                .chain(mul)
+                .chain(concat)
+                .filter(|&v| v <= self.test_value)
+                .collect();
         }
         values.contains(&self.test_value)
     }
@@ -55,4 +79,8 @@ impl FromStr for Equation {
             numbers,
         })
     }
+}
+
+const fn concat(a: u64, b: u64) -> u64 {
+    a * 10u64.pow(b.ilog10() + 1) + b
 }

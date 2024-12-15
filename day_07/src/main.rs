@@ -1,4 +1,5 @@
 #![feature(never_type)]
+#![feature(iter_chain)]
 
 mod bridge;
 
@@ -13,11 +14,12 @@ fn main() {
 
 fn part_1(input: &str) -> u64 {
     let Ok(bridge) = input.parse::<Bridge>();
-    bridge.calibration_result()
+    bridge.calibration_result_without_concat()
 }
 
 fn part_2(input: &str) -> u64 {
-    0
+    let Ok(bridge) = input.parse::<Bridge>();
+    bridge.calibration_result_with_concat()
 }
 
 #[cfg(test)]
@@ -33,6 +35,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 11387);
     }
 }
