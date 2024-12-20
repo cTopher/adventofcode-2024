@@ -16,8 +16,9 @@ fn part_1(input: &str) -> usize {
     island.total_trailheads_score()
 }
 
-fn part_2(input: &str) -> u32 {
-    0
+fn part_2(input: &str) -> usize {
+    let Ok(island) = input.parse::<LavaIsland>();
+    island.total_trailheads_rating()
 }
 
 #[cfg(test)]
@@ -33,6 +34,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 81);
     }
 }
