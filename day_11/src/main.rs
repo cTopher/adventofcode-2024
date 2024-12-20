@@ -8,19 +8,19 @@ use std::fs;
 fn main() {
     let input = fs::read_to_string("day_11/input.txt").unwrap();
     println!("Answer 1: {}", &part_1(&input));
-    println!("Answer 2: {}", &part_2(&input));
+    println!("Answer 2: {}", &part_2(&input)); // 1960086785 is too low
 }
 
-fn part_1(input: &str) -> usize {
+fn part_1(input: &str) -> u64 {
     let Ok(mut stones) = input.parse::<Stones>();
-    for _ in 0..25 {
-        stones.blink();
-    }
+    stones.blink_times(25);
     stones.amount()
 }
 
-fn part_2(input: &str) -> u32 {
-    0
+fn part_2(input: &str) -> u64 {
+    let Ok(mut stones) = input.parse::<Stones>();
+    stones.blink_times(75);
+    stones.amount()
 }
 
 #[cfg(test)]
@@ -36,6 +36,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        // assert_eq!(part_2(EXAMPLE), 0);
     }
 }
