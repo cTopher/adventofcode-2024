@@ -1,0 +1,10 @@
+[package]
+name = "day_10"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+matrix.workspace = true
+
+[lints]
+workspace = true

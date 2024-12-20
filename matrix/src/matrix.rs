@@ -30,6 +30,12 @@ impl<T: Copy> Matrix<T> {
         })
     }
 
+    pub fn neighbours(&self, position: Position) -> impl Iterator<Item = (Position, T)> + '_ {
+        position
+            .neighbours()
+            .filter_map(|position| self.get(position).map(|elem| (position, elem)))
+    }
+
     pub fn map<U: Copy, F: FnMut(T) -> U>(&self, mut f: F) -> Matrix<U> {
         let elements = self
             .elements

@@ -13,6 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/day_08/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day_09/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/matrix/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/day_10/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/day_01/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/day_" />

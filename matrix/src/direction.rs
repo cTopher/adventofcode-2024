@@ -30,6 +30,8 @@ impl Direction {
         Self::LEFT,
     ];
 
+    pub const ORTHOGONAL: [Self; 4] = [Self::UP, Self::RIGHT, Self::DOWN, Self::LEFT];
+
     #[must_use]
     pub const fn new(di: isize, dj: isize) -> Self {
         Self { di, dj }

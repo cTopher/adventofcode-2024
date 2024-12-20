@@ -1,7 +1,7 @@
 use crate::Direction;
 use std::ops::{Add, Sub};
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Position {
     pub i: usize,
     pub j: usize,
@@ -29,6 +29,12 @@ impl Position {
         let i = self.i.checked_sub_signed(di)?;
         let j = self.j.checked_sub_signed(dj)?;
         Some(Self { i, j })
+    }
+
+    pub fn neighbours(self) -> impl Iterator<Item = Self> {
+        Direction::ORTHOGONAL
+            .into_iter()
+            .filter_map(move |direction| self.checked_add(direction))
     }
 }
 
