@@ -1,8 +1,9 @@
 #![feature(never_type)]
+#![feature(iter_map_windows)]
 
-mod disk;
+mod fast_disk;
+mod fragmentable_disk;
 
-use crate::disk::DiskMap;
 use std::fs;
 
 fn main() {
@@ -11,14 +12,16 @@ fn main() {
     println!("Answer 2: {}", &part_2(&input));
 }
 
-fn part_1(input: &str) -> u32 {
-    let Ok(mut disk) = input.parse::<DiskMap>();
+fn part_1(input: &str) -> usize {
+    let Ok(mut disk) = input.parse::<fragmentable_disk::DiskMap>();
     disk.compact();
     disk.checksum()
 }
 
-fn part_2(input: &str) -> u32 {
-    0
+fn part_2(input: &str) -> usize {
+    let Ok(mut disk) = input.parse::<fast_disk::DiskMap>();
+    disk.compact();
+    disk.checksum()
 }
 
 #[cfg(test)]
@@ -34,6 +37,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 2858);
     }
 }
