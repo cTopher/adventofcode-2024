@@ -1,20 +1,23 @@
 #![feature(never_type)]
+#![feature(let_chains)]
 
-use std::fs;
 mod model;
 pub use model::*;
 
+use std::fs;
+
 fn main() {
-    let input = fs::read_to_string("day_/input.txt").unwrap();
+    let input = fs::read_to_string("day_12/input.txt").unwrap();
     println!("Answer 1: {}", &part_1(&input));
     println!("Answer 2: {}", &part_2(&input));
 }
 
-fn part_1(input: &str) -> u32 {
-    0
+fn part_1(input: &str) -> usize {
+    let Ok(map) = input.parse::<Map>();
+    map.total_price()
 }
 
-fn part_2(input: &str) -> u32 {
+fn part_2(input: &str) -> usize {
     0
 }
 
@@ -26,7 +29,7 @@ mod tests {
 
     #[test]
     fn example_1() {
-        assert_eq!(part_1(EXAMPLE), 0);
+        assert_eq!(part_1(EXAMPLE), 1930);
     }
 
     #[test]

@@ -1,6 +1,7 @@
 use crate::Position;
 use std::fmt;
 use std::ops::{Index, IndexMut};
+use std::str::FromStr;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Matrix<T> {
@@ -28,6 +29,14 @@ impl<T: Copy> Matrix<T> {
                 .enumerate()
                 .map(move |(j, &elem)| (Position { i, j }, elem))
         })
+    }
+
+    // this could be done using width and height, but I'm lazy
+    pub fn positions(&self) -> impl Iterator<Item = Position> + '_ {
+        self.elements
+            .iter()
+            .enumerate()
+            .flat_map(|(i, row)| row.iter().enumerate().map(move |(j, _)| Position { i, j }))
     }
 
     pub fn neighbours(&self, position: Position) -> impl Iterator<Item = (Position, T)> + '_ {
@@ -90,5 +99,14 @@ impl<T> IndexMut<Position> for Matrix<T> {
 impl<T: Copy> From<Vec<Vec<T>>> for Matrix<T> {
     fn from(elements: Vec<Vec<T>>) -> Self {
         Self::new(elements)
+    }
+}
+
+impl FromStr for Matrix<char> {
+    type Err = !;
+
+    fn from_str(s: &str) -> Result<Self, !> {
+        let elements = s.lines().map(|line| line.chars().collect()).collect();
+        Ok(Self { elements })
     }
 }
