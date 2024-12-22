@@ -14,11 +14,12 @@ fn main() {
 
 fn part_1(input: &str) -> usize {
     let Ok(map) = input.parse::<Map>();
-    map.total_price()
+    map.plots().map(|plot| plot.price()).sum()
 }
 
 fn part_2(input: &str) -> usize {
-    0
+    let Ok(map) = input.parse::<Map>();
+    map.plots().map(|plot| plot.bulk_discount_price()).sum()
 }
 
 #[cfg(test)]
@@ -34,6 +35,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 1206);
     }
 }

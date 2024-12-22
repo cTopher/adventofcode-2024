@@ -1,4 +1,4 @@
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct Direction {
     pub di: isize,
     pub dj: isize,
@@ -42,6 +42,14 @@ impl Direction {
         Self {
             di: self.dj,
             dj: -self.di,
+        }
+    }
+
+    #[must_use]
+    pub const fn turn_left(self) -> Self {
+        Self {
+            di: -self.dj,
+            dj: self.di,
         }
     }
 }

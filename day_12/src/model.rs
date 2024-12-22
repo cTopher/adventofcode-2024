@@ -6,29 +6,33 @@ pub struct Map {
     plants: Matrix<char>,
 }
 
-struct Plot {
+pub struct Plot {
     positions: HashSet<Position>,
-    perimeter: usize,
+    fence: Vec<Fence>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+struct Fence {
+    position: Position,
+    direction: Direction,
 }
 
 impl Map {
-    #[must_use]
-    pub fn total_price(&self) -> usize {
-        let mut todo: HashSet<_> = self.plants.positions().collect();
-        let mut price = 0;
-        while let Some(&pos) = todo.iter().next() {
-            let plot = self.plot_at(pos);
-            price += plot.price();
-            for pos in &plot.positions {
-                todo.remove(pos);
+    pub fn plots(&self) -> impl Iterator<Item = Plot> + '_ {
+        let mut plotted = HashSet::<Position>::new();
+        self.plants.enumerate().filter_map(move |(position, name)| {
+            if plotted.contains(&position) {
+                None
+            } else {
+                let plot = self.plot_at(position, name);
+                plotted.extend(&plot.positions);
+                Some(plot)
             }
-        }
-        price
+        })
     }
 
-    fn plot_at(&self, position: Position) -> Plot {
-        let mut perimeter = 0;
-        let name = self.plants.get(position).unwrap();
+    fn plot_at(&self, position: Position, name: char) -> Plot {
+        let mut fence = Vec::new();
         let mut positions = HashSet::new();
         let mut todo = vec![position];
         positions.insert(position);
@@ -41,20 +45,56 @@ impl Map {
                         todo.push(neighbour);
                     }
                 } else {
-                    perimeter += 1;
+                    fence.push(Fence {
+                        position,
+                        direction,
+                    });
                 }
             }
         }
-        Plot {
-            positions,
-            perimeter,
-        }
+        Plot { positions, fence }
     }
 }
 
 impl Plot {
-    fn price(&self) -> usize {
-        self.positions.len() * self.perimeter
+    #[must_use]
+    pub fn price(&self) -> usize {
+        self.positions.len() * self.fence.len()
+    }
+
+    #[must_use]
+    pub fn bulk_discount_price(&self) -> usize {
+        self.positions.len() * self.sides()
+    }
+
+    fn sides(&self) -> usize {
+        let mut todo: HashSet<_> = self.fence.iter().collect();
+        let mut sides = 0;
+        while let Some(&&fence) = todo.iter().next() {
+            todo.remove(&fence);
+            sides += 1;
+            let mut position = fence.position;
+            let right = fence.direction.turn_right();
+            while let Some(next) = position.checked_add(right)
+                && todo.remove(&Fence {
+                    position: next,
+                    direction: fence.direction,
+                })
+            {
+                position = next;
+            }
+            let mut position = fence.position;
+            let left = fence.direction.turn_left();
+            while let Some(next) = position.checked_add(left)
+                && todo.remove(&Fence {
+                    position: next,
+                    direction: fence.direction,
+                })
+            {
+                position = next;
+            }
+        }
+        sides
     }
 }
 
