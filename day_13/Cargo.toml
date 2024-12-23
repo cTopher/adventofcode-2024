@@ -7,5 +7,4 @@ edition.workspace = true
 workspace = true
 
 [dependencies]
-regex.workspace = true
 math-2d.workspace = true

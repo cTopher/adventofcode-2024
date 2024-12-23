@@ -82,7 +82,6 @@ name = "day_13"
 version = "0.1.0"
 dependencies = [
  "math-2d",
- "regex",
 ]
 
 [[package]]

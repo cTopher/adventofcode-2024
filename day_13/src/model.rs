@@ -1,5 +1,4 @@
 use math_2d::{Matrix, Vector};
-use regex::Regex;
 use std::str::FromStr;
 
 pub struct Arcade {
@@ -55,18 +54,51 @@ impl FromStr for Arcade {
     }
 }
 
-const MACHINE_RE: &str =
-    r"Button A: X\+(\d+), Y\+(\d+)\nButton B: X\+(\d+), Y\+(\d+)\nPrize: X=(\d+), Y=(\d+)";
 impl FromStr for Machine {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, !> {
-        let regex = Regex::new(MACHINE_RE).unwrap();
-        let (_, [ax, ay, bx, by, px, py]) = regex.captures(s).unwrap().extract();
+        let mut lines = s.lines();
         Ok(Self {
-            a: Vector::new(ax.parse().unwrap(), ay.parse().unwrap()),
-            b: Vector::new(bx.parse().unwrap(), by.parse().unwrap()),
-            price: Vector::new(px.parse::<f64>().unwrap(), py.parse::<f64>().unwrap()),
+            a: parse_button(lines.next().unwrap()),
+            b: parse_button(lines.next().unwrap()),
+            price: parse_price(lines.next().unwrap()),
         })
     }
+}
+
+fn parse_button(s: &str) -> Vector {
+    let mut split = s.split_whitespace().skip(2);
+    let x = split
+        .next()
+        .unwrap()
+        .trim_start_matches("X+")
+        .trim_end_matches(',')
+        .parse()
+        .unwrap();
+    let y = split
+        .next()
+        .unwrap()
+        .trim_start_matches("Y+")
+        .parse()
+        .unwrap();
+    Vector::new(x, y)
+}
+
+fn parse_price(s: &str) -> Vector {
+    let mut split = s.split_whitespace().skip(1);
+    let x = split
+        .next()
+        .unwrap()
+        .trim_start_matches("X=")
+        .trim_end_matches(',')
+        .parse()
+        .unwrap();
+    let y = split
+        .next()
+        .unwrap()
+        .trim_start_matches("Y=")
+        .parse()
+        .unwrap();
+    Vector::new(x, y)
 }
