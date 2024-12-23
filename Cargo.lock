@@ -78,6 +78,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "day_13"
+version = "0.1.0"
+dependencies = [
+ "math-2d",
+ "regex",
+]
+
+[[package]]
+name = "math-2d"
+version = "0.1.0"
+
+[[package]]
 name = "matrix"
 version = "0.1.0"
 

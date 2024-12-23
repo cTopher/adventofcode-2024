@@ -6,6 +6,7 @@
 [workspace]
 members = [
     "matrix",
+    "math-2d",
     "day_01",
     "day_02",
     "day_03",
@@ -18,6 +19,7 @@ members = [
     "day_10",
     "day_11",
     "day_12",
+    "day_13",
 ]
 
 resolver = "3"
@@ -33,3 +35,4 @@ nursery = "warn"
 [workspace.dependencies]
 regex = "1.11"
 matrix = { path = "matrix" }
+math-2d = { path = "math-2d" }

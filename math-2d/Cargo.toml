@@ -1,0 +1,9 @@
+[package]
+name = "math-2d"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+
+[lints]
+workspace = true

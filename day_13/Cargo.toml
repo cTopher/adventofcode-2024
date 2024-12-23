@@ -1,0 +1,11 @@
+[package]
+name = "day_13"
+version.workspace = true
+edition.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+regex.workspace = true
+math-2d.workspace = true
