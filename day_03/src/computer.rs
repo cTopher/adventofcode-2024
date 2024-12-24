@@ -19,9 +19,9 @@ impl Computer {
 fn sum_of_multiplications(s: &str) -> u32 {
     s.match_indices("mul(")
         .filter_map(|(index, _)| {
-            let start = index + 4;
-            let len = s[start..].find(')')?;
-            let mut parts = s[start..start + len].split(',');
+            let string = &s[index + 4..];
+            let string = &string[..string.find(')')?];
+            let mut parts = string.split(',');
             let a: u32 = parts.next()?.parse().ok()?;
             let b: u32 = parts.next()?.parse().ok()?;
             if parts.next().is_some() {
