@@ -33,6 +33,5 @@ pedantic = "warn"
 nursery = "warn"
 
 [workspace.dependencies]
-regex = "1.11"
 matrix = { path = "matrix" }
 math-2d = { path = "math-2d" }
