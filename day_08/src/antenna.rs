@@ -1,15 +1,15 @@
-use matrix::{Matrix, Position};
+use grid::{Grid, Position};
 use std::str::FromStr;
 
 pub struct City {
-    pub antennas: Matrix<Option<char>>,
+    pub antennas: Grid<Option<char>>,
 }
 
 const ANTENNA_START: usize = '0' as usize;
 const ANTENNA_END: usize = 'z' as usize;
 
 impl City {
-    pub fn antinodes(&self) -> Matrix<bool> {
+    pub fn antinodes(&self) -> Grid<bool> {
         let mut antinodes = self.antennas.map(|_| false);
         for positions in self.antenna_positions() {
             for (i, &a) in positions.iter().enumerate() {
@@ -31,7 +31,7 @@ impl City {
         antinodes
     }
 
-    pub fn resonant_harmonic_antinodes(&self) -> Matrix<bool> {
+    pub fn resonant_harmonic_antinodes(&self) -> Grid<bool> {
         let mut antinodes = self.antennas.map(|antenna| antenna.is_some());
         for positions in self.antenna_positions() {
             for (i, &a) in positions.iter().enumerate() {
@@ -86,7 +86,7 @@ impl FromStr for City {
                     .collect()
             })
             .collect();
-        let antennas = Matrix::new(antennas);
+        let antennas = Grid::new(antennas);
         Ok(Self { antennas })
     }
 }

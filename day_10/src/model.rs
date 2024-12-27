@@ -1,8 +1,8 @@
-use matrix::{Matrix, Position};
+use grid::{Grid, Position};
 use std::str::FromStr;
 
 pub struct LavaIsland {
-    map: Matrix<u8>,
+    map: Grid<u8>,
 }
 
 impl LavaIsland {
@@ -70,7 +70,7 @@ impl FromStr for LavaIsland {
             })
             .collect();
         Ok(Self {
-            map: Matrix::new(map),
+            map: Grid::new(map),
         })
     }
 }

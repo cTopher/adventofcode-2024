@@ -1,9 +1,9 @@
-use matrix::{Direction, Matrix, Position};
+use grid::{Direction, Grid, Position};
 use std::collections::HashSet;
 use std::str::FromStr;
 
 pub struct Map {
-    plants: Matrix<char>,
+    plants: Grid<char>,
 }
 
 pub struct Plot {

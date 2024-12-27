@@ -4,9 +4,9 @@
 #![feature(never_type)]
 
 mod direction;
-mod matrix;
+mod grid;
 mod position;
 
 pub use direction::*;
-pub use matrix::*;
+pub use grid::*;
 pub use position::*;

@@ -5,7 +5,7 @@
 
 [workspace]
 members = [
-    "matrix",
+    "grid",
     "math-2d",
     "day_01",
     "day_02",
@@ -21,6 +21,7 @@ members = [
     "day_12",
     "day_13",
     "day_14",
+    "day_15",
 ]
 
 resolver = "3"
@@ -34,5 +35,5 @@ pedantic = "warn"
 nursery = "warn"
 
 [workspace.dependencies]
-matrix = { path = "matrix" }
+grid = { path = "grid" }
 math-2d = { path = "math-2d" }

@@ -1,8 +1,8 @@
-use matrix::{Direction, Matrix, Position};
+use grid::{Direction, Grid, Position};
 use std::str::FromStr;
 
 pub struct WordSearch {
-    letters: Matrix<char>,
+    letters: Grid<char>,
 }
 
 impl WordSearch {
@@ -62,7 +62,7 @@ impl FromStr for WordSearch {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, !> {
-        let letters = Matrix::new(s.lines().map(|line| line.chars().collect()).collect());
+        let letters = Grid::new(s.lines().map(|line| line.chars().collect()).collect());
         Ok(Self { letters })
     }
 }

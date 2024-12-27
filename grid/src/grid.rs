@@ -4,11 +4,11 @@ use std::ops::{Index, IndexMut};
 use std::str::FromStr;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub struct Matrix<T> {
+pub struct Grid<T> {
     elements: Vec<Vec<T>>,
 }
 
-impl<T: Copy> Matrix<T> {
+impl<T: Copy> Grid<T> {
     #[must_use]
     pub const fn new(elements: Vec<Vec<T>>) -> Self {
         Self { elements }
@@ -45,13 +45,13 @@ impl<T: Copy> Matrix<T> {
             .filter_map(|position| self.get(position).map(|elem| (position, elem)))
     }
 
-    pub fn map<U: Copy, F: FnMut(T) -> U>(&self, mut f: F) -> Matrix<U> {
+    pub fn map<U: Copy, F: FnMut(T) -> U>(&self, mut f: F) -> Grid<U> {
         let elements = self
             .elements
             .iter()
             .map(|row| row.iter().copied().map(&mut f).collect())
             .collect();
-        Matrix::new(elements)
+        Grid::new(elements)
     }
 
     pub fn print(&self, mut f: impl FnMut(T) -> char) {
@@ -67,7 +67,7 @@ impl<T: Copy> Matrix<T> {
     }
 }
 
-impl<T: fmt::Display> fmt::Display for Matrix<T> {
+impl<T: fmt::Display> fmt::Display for Grid<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for row in &self.elements {
             for (index, elem) in row.iter().enumerate() {
@@ -82,7 +82,7 @@ impl<T: fmt::Display> fmt::Display for Matrix<T> {
     }
 }
 
-impl<T> Index<Position> for Matrix<T> {
+impl<T> Index<Position> for Grid<T> {
     type Output = T;
 
     fn index(&self, Position { i, j }: Position) -> &Self::Output {
@@ -90,19 +90,19 @@ impl<T> Index<Position> for Matrix<T> {
     }
 }
 
-impl<T> IndexMut<Position> for Matrix<T> {
+impl<T> IndexMut<Position> for Grid<T> {
     fn index_mut(&mut self, Position { i, j }: Position) -> &mut Self::Output {
         &mut self.elements[i][j]
     }
 }
 
-impl<T: Copy> From<Vec<Vec<T>>> for Matrix<T> {
+impl<T: Copy> From<Vec<Vec<T>>> for Grid<T> {
     fn from(elements: Vec<Vec<T>>) -> Self {
         Self::new(elements)
     }
 }
 
-impl FromStr for Matrix<char> {
+impl FromStr for Grid<char> {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, !> {

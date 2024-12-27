@@ -1,8 +1,8 @@
-use matrix::{Direction, DirectionSet, Matrix, Position};
+use grid::{Direction, DirectionSet, Grid, Position};
 use std::str::FromStr;
 
 pub struct Lab {
-    map: Matrix<Tile>,
+    map: Grid<Tile>,
     guard: Guard,
 }
 
@@ -115,7 +115,7 @@ impl FromStr for Lab {
             map.push(row);
         }
         Ok(Self {
-            map: Matrix::new(map),
+            map: Grid::new(map),
             guard,
         })
     }

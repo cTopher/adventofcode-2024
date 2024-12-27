@@ -18,7 +18,7 @@ version = "0.1.0"
 name = "day_04"
 version = "0.1.0"
 dependencies = [
- "matrix",
+ "grid",
 ]
 
 [[package]]
@@ -29,7 +29,7 @@ version = "0.1.0"
 name = "day_06"
 version = "0.1.0"
 dependencies = [
- "matrix",
+ "grid",
 ]
 
 [[package]]
@@ -40,7 +40,7 @@ version = "0.1.0"
 name = "day_08"
 version = "0.1.0"
 dependencies = [
- "matrix",
+ "grid",
 ]
 
 [[package]]
@@ -51,7 +51,7 @@ version = "0.1.0"
 name = "day_10"
 version = "0.1.0"
 dependencies = [
- "matrix",
+ "grid",
 ]
 
 [[package]]
@@ -62,7 +62,7 @@ version = "0.1.0"
 name = "day_12"
 version = "0.1.0"
 dependencies = [
- "matrix",
+ "grid",
 ]
 
 [[package]]
@@ -77,9 +77,16 @@ name = "day_14"
 version = "0.1.0"
 
 [[package]]
-name = "math-2d"
+name = "day_15"
+version = "0.1.0"
+dependencies = [
+ "grid",
+]
+
+[[package]]
+name = "grid"
 version = "0.1.0"
 
 [[package]]
-name = "matrix"
+name = "math-2d"
 version = "0.1.0"

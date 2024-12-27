@@ -1,10 +1,10 @@
 [package]
-name = "day_08"
+name = "day_15"
 version.workspace = true
 edition.workspace = true
 
-[lints]
-workspace = true
-
 [dependencies]
 grid.workspace = true
+
+[lints]
+workspace = true
