@@ -2,9 +2,9 @@ use std::ops::{AddAssign, Mul};
 use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct Position<const W: u32, const H: u32> {
-    pub x: u32,
-    pub y: u32,
+pub struct Position<const W: usize, const H: usize> {
+    pub x: usize,
+    pub y: usize,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -13,7 +13,7 @@ pub struct Velocity {
     y: i32,
 }
 
-impl<const W: u32, const H: u32> Position<W, H> {
+impl<const W: usize, const H: usize> Position<W, H> {
     pub const fn quadrant(self) -> Option<u8> {
         if self.x < W / 2 && self.y < H / 2 {
             Some(0)
@@ -29,10 +29,10 @@ impl<const W: u32, const H: u32> Position<W, H> {
     }
 }
 
-impl Mul<u32> for Velocity {
+impl Mul<usize> for Velocity {
     type Output = Self;
 
-    fn mul(self, rhs: u32) -> Self::Output {
+    fn mul(self, rhs: usize) -> Self::Output {
         let rhs = i32::try_from(rhs).unwrap();
         Self {
             x: self.x * rhs,
@@ -41,19 +41,19 @@ impl Mul<u32> for Velocity {
     }
 }
 
-impl<const W: u32, const H: u32> AddAssign<Velocity> for Position<W, H> {
+impl<const W: usize, const H: usize> AddAssign<Velocity> for Position<W, H> {
     fn add_assign(&mut self, rhs: Velocity) {
         add_assign::<W>(&mut self.x, rhs.x);
         add_assign::<H>(&mut self.y, rhs.y);
     }
 }
 
-fn add_assign<const D: u32>(a: &mut u32, v: i32) {
-    let v = v.rem_euclid(i32::try_from(D).unwrap()) as u32;
+fn add_assign<const D: usize>(a: &mut usize, v: i32) {
+    let v = v.rem_euclid(i32::try_from(D).unwrap()) as usize;
     *a = (*a + v) % D;
 }
 
-impl<const W: u32, const H: u32> FromStr for Position<W, H> {
+impl<const W: usize, const H: usize> FromStr for Position<W, H> {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, !> {

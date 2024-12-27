@@ -1,4 +1,6 @@
 #![feature(never_type)]
+#![feature(array_repeat)]
+#![feature(iter_map_windows)]
 
 use std::fs;
 mod model;
@@ -12,16 +14,17 @@ fn main() {
     println!("Answer 2: {}", &part_2::<101, 103>(&input));
 }
 
-fn part_1<const W: u32, const H: u32>(input: &str) -> u32 {
+fn part_1<const W: usize, const H: usize>(input: &str) -> usize {
     let Ok(mut list) = input.parse::<RobotList<W, H>>();
     list.progress(100);
     list.safety_factor()
 }
 
-fn part_2<const W: u32, const H: u32>(input: &str) -> u32 {
+fn part_2<const W: usize, const H: usize>(input: &str) -> usize {
     let Ok(mut list) = input.parse::<RobotList<W, H>>();
-    list.progress(100);
-    0
+    list.progress_until_christmas_tree();
+    println!("{list}");
+    list.seconds_elapsed
 }
 
 #[cfg(test)]
@@ -41,12 +44,7 @@ mod tests {
     }
 
     #[test]
-    fn example_1() {
+    fn full_example() {
         assert_eq!(part_1::<11, 7>(EXAMPLE), 12);
-    }
-
-    #[test]
-    fn example_2() {
-        assert_eq!(part_2::<11, 7>(EXAMPLE), 0);
     }
 }
