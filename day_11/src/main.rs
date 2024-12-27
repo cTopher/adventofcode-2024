@@ -36,6 +36,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        // assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 65_601_038_650_482);
     }
 }
