@@ -31,8 +31,9 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace.lints.clippy]
-pedantic = "warn"
-nursery = "warn"
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+missing_panics_doc = "allow"
 
 [workspace.dependencies]
 grid = { path = "grid" }

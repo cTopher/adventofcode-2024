@@ -76,7 +76,7 @@ impl FromStr for DiskMap {
                 position += free_space_size;
             } else {
                 break;
-            };
+            }
         }
         Ok(Self { files, free_space })
     }

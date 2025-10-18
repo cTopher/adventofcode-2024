@@ -61,16 +61,7 @@ impl FromStr for LavaIsland {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, !> {
-        let map = s
-            .lines()
-            .map(|line| {
-                line.chars()
-                    .map(|c| c.to_digit(10).unwrap().try_into().unwrap())
-                    .collect()
-            })
-            .collect();
-        Ok(Self {
-            map: Grid::new(map),
-        })
+        let map = Grid::from_str_per_char(s, |c| c.to_digit(10).unwrap().try_into().unwrap());
+        Ok(Self { map })
     }
 }

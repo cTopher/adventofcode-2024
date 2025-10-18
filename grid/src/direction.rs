@@ -33,6 +33,17 @@ impl Direction {
     pub const ORTHOGONAL: [Self; 4] = [Self::UP, Self::RIGHT, Self::DOWN, Self::LEFT];
 
     #[must_use]
+    pub fn orthogonal_from_arrow(char: char) -> Self {
+        match char {
+            '^' => Self::UP,
+            '>' => Self::RIGHT,
+            'v' => Self::DOWN,
+            '<' => Self::LEFT,
+            _ => panic!("Invalid arrow char: {char}"),
+        }
+    }
+
+    #[must_use]
     pub const fn new(di: isize, dj: isize) -> Self {
         Self { di, dj }
     }

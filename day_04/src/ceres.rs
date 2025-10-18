@@ -62,7 +62,7 @@ impl FromStr for WordSearch {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, !> {
-        let letters = Grid::new(s.lines().map(|line| line.chars().collect()).collect());
+        let Ok(letters) = s.parse();
         Ok(Self { letters })
     }
 }

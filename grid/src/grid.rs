@@ -65,6 +65,28 @@ impl<T: Copy> Grid<T> {
             println!();
         }
     }
+
+    pub fn from_str_per_char(s: &str, f: impl Fn(char) -> T) -> Self {
+        let elements = s
+            .lines()
+            .map(|line| line.chars().map(&f).collect())
+            .collect();
+        Self { elements }
+    }
+
+    pub fn from_str_per_enumerated_char(s: &str, mut f: impl FnMut(char, Position) -> T) -> Self {
+        let elements = s
+            .lines()
+            .enumerate()
+            .map(|(i, line)| {
+                line.chars()
+                    .enumerate()
+                    .map(|(j, char)| f(char, Position { i, j }))
+                    .collect()
+            })
+            .collect();
+        Self { elements }
+    }
 }
 
 impl<T: fmt::Display> fmt::Display for Grid<T> {

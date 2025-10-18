@@ -1,5 +1,4 @@
 #![feature(never_type)]
-#![feature(unsigned_signed_diff)]
 #![feature(exhaustive_patterns)]
 
 use crate::report::{Report, Reports};

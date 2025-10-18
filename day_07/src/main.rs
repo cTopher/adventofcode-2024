@@ -1,5 +1,4 @@
 #![feature(never_type)]
-#![feature(iter_chain)]
 
 mod bridge;
 

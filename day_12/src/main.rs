@@ -1,5 +1,4 @@
 #![feature(never_type)]
-#![feature(let_chains)]
 
 mod model;
 pub use model::*;

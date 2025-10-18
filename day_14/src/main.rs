@@ -1,5 +1,4 @@
 #![feature(never_type)]
-#![feature(array_repeat)]
 #![feature(iter_map_windows)]
 
 use std::fs;

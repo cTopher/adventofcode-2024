@@ -1,5 +1,5 @@
 use crate::Direction;
-use std::ops::{Add, Sub};
+use std::ops::{Add, AddAssign, Sub};
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct Position {
@@ -45,6 +45,13 @@ impl Add<Direction> for Position {
         let i = self.i.strict_add_signed(di);
         let j = self.j.strict_add_signed(dj);
         Self { i, j }
+    }
+}
+
+impl AddAssign<Direction> for Position {
+    fn add_assign(&mut self, Direction { di, dj }: Direction) {
+        self.i = self.i.strict_add_signed(di);
+        self.j = self.j.strict_add_signed(dj);
     }
 }
 

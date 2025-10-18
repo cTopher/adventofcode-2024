@@ -85,7 +85,7 @@ impl Guard {
         self.position.checked_add(self.direction)
     }
 
-    fn turn_right(&mut self) {
+    const fn turn_right(&mut self) {
         self.direction = self.direction.turn_right();
     }
 }

@@ -15,15 +15,15 @@ impl City {
             for (i, &a) in positions.iter().enumerate() {
                 for &b in &positions[i + 1..] {
                     let dir = b - a;
-                    if let Some(x) = a.checked_sub(dir) {
-                        if let Some(is_antinode) = antinodes.get_mut(x) {
-                            *is_antinode = true;
-                        }
+                    if let Some(x) = a.checked_sub(dir)
+                        && let Some(is_antinode) = antinodes.get_mut(x)
+                    {
+                        *is_antinode = true;
                     }
-                    if let Some(x) = b.checked_add(dir) {
-                        if let Some(is_antinode) = antinodes.get_mut(x) {
-                            *is_antinode = true;
-                        }
+                    if let Some(x) = b.checked_add(dir)
+                        && let Some(is_antinode) = antinodes.get_mut(x)
+                    {
+                        *is_antinode = true;
                     }
                 }
             }
@@ -78,15 +78,7 @@ impl FromStr for City {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let antennas = s
-            .lines()
-            .map(|line| {
-                line.chars()
-                    .map(|c| if c == '.' { None } else { Some(c) })
-                    .collect()
-            })
-            .collect();
-        let antennas = Grid::new(antennas);
+        let antennas = Grid::from_str_per_char(s, |c| if c == '.' { None } else { Some(c) });
         Ok(Self { antennas })
     }
 }
