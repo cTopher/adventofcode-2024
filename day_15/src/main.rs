@@ -1,6 +1,8 @@
 #![feature(never_type)]
 
 use std::fs;
+use std::str::FromStr;
+
 mod model;
 pub use model::*;
 
@@ -10,8 +12,10 @@ fn main() {
     println!("Answer 2: {}", &part_2(&input));
 }
 
-fn part_1(input: &str) -> u32 {
-    0
+fn part_1(input: &str) -> usize {
+    let Ok(mut warehouse) = Warehouse::from_str(input);
+    warehouse.do_moves();
+    warehouse.boxes().map(gps_coordinates).sum()
 }
 
 fn part_2(input: &str) -> u32 {
