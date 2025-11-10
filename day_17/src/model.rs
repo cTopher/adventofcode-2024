@@ -5,17 +5,24 @@ pub struct Computer {
     register_a: usize,
     register_b: usize,
     register_c: usize,
-    program: Vec<u8>,
+    pub program: Vec<u8>,
+    output: Vec<u8>,
     instruction_pointer: usize,
-    output: String,
 }
 
 impl Computer {
-    pub fn run(&mut self) -> String {
+    pub fn run(&mut self) -> Vec<u8> {
         while self.instruction_pointer < self.program.len() {
             self.run_instruction();
         }
         mem::take(&mut self.output)
+    }
+
+    pub const fn reset(&mut self, register_a: usize) {
+        self.register_a = register_a;
+        self.register_b = 0;
+        self.register_c = 0;
+        self.instruction_pointer = 0;
     }
 
     fn run_instruction(&mut self) {
@@ -33,7 +40,7 @@ impl Computer {
             5 => self.out(operand),
             6 => self.bdv(operand),
             7 => self.cdv(operand),
-            _ => panic!("Invalid opcode {opcode}"),
+            _ => panic!("Invalid opcode: {opcode}"),
         }
         self.instruction_pointer += 2;
     }
@@ -47,7 +54,7 @@ impl Computer {
             4 => self.register_a,
             5 => self.register_b,
             6 => self.register_c,
-            _ => panic!("Invalid operand {operand}"),
+            _ => panic!("Invalid operand: {operand}"),
         }
     }
 
@@ -81,12 +88,7 @@ impl Computer {
 
     fn out(&mut self, operand: u8) {
         let value = self.combo_operand(operand) % 8;
-        if self.output.is_empty() {
-            self.output = value.to_string();
-        } else {
-            self.output.push(',');
-            self.output.push_str(&value.to_string());
-        }
+        self.output.push(u8::try_from(value).unwrap());
     }
 
     fn bdv(&mut self, operand: u8) {
@@ -98,7 +100,7 @@ impl Computer {
     }
 
     fn division(&self, operand: u8) -> usize {
-        self.register_a / 2usize.pow(u32::try_from(self.combo_operand(operand)).unwrap())
+        self.register_a >> self.combo_operand(operand)
     }
 }
 
@@ -130,7 +132,7 @@ impl FromStr for Computer {
             register_c,
             program,
             instruction_pointer: 0,
-            output: String::new(),
+            output: Vec::new(),
         })
     }
 }
