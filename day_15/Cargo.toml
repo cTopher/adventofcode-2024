@@ -8,3 +8,6 @@ grid.workspace = true
 
 [lints]
 workspace = true
+
+[features]
+verbose = []

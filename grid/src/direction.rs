@@ -63,6 +63,16 @@ impl Direction {
             dj: self.di,
         }
     }
+
+    #[must_use]
+    pub const fn horizontal(&self) -> bool {
+        self.di == 0
+    }
+
+    #[must_use]
+    pub const fn vertical(&self) -> bool {
+        self.dj == 0
+    }
 }
 
 impl DirectionSet {

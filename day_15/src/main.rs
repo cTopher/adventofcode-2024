@@ -18,8 +18,11 @@ fn part_1(input: &str) -> usize {
     warehouse.boxes().map(gps_coordinates).sum()
 }
 
-fn part_2(input: &str) -> u32 {
-    0
+fn part_2(input: &str) -> usize {
+    let Ok(mut warehouse) = Warehouse::from_str(input);
+    warehouse.resize();
+    warehouse.do_moves();
+    warehouse.boxes().map(gps_coordinates).sum()
 }
 
 #[cfg(test)]
@@ -35,6 +38,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 9021);
     }
 }

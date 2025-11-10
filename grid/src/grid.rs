@@ -46,12 +46,14 @@ impl<T: Copy> Grid<T> {
     }
 
     pub fn map<U: Copy, F: FnMut(T) -> U>(&self, mut f: F) -> Grid<U> {
-        let elements = self
-            .elements
+        self.elements
             .iter()
             .map(|row| row.iter().copied().map(&mut f).collect())
-            .collect();
-        Grid::new(elements)
+            .collect()
+    }
+
+    pub fn iter_rows(&self) -> impl Iterator<Item = &[T]> {
+        self.elements.iter().map(Vec::as_slice)
     }
 
     pub fn print(&self, mut f: impl FnMut(T) -> char) {
@@ -67,35 +69,26 @@ impl<T: Copy> Grid<T> {
     }
 
     pub fn from_str_per_char(s: &str, f: impl Fn(char) -> T) -> Self {
-        let elements = s
-            .lines()
+        s.lines()
             .map(|line| line.chars().map(&f).collect())
-            .collect();
-        Self { elements }
+            .collect()
     }
+}
 
-    pub fn from_str_per_enumerated_char(s: &str, mut f: impl FnMut(char, Position) -> T) -> Self {
-        let elements = s
-            .lines()
-            .enumerate()
-            .map(|(i, line)| {
-                line.chars()
-                    .enumerate()
-                    .map(|(j, char)| f(char, Position { i, j }))
-                    .collect()
-            })
-            .collect();
-        Self { elements }
+impl<T: PartialEq + Copy> Grid<T> {
+    pub fn position(&self, target: T) -> Option<Position> {
+        self.enumerate().find_map(
+            |(position, elem)| {
+                if elem == target { Some(position) } else { None }
+            },
+        )
     }
 }
 
 impl<T: fmt::Display> fmt::Display for Grid<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for row in &self.elements {
-            for (index, elem) in row.iter().enumerate() {
-                if index > 0 {
-                    write!(f, " ")?;
-                }
+            for elem in row {
                 write!(f, "{elem}")?;
             }
             writeln!(f)?;
@@ -118,17 +111,18 @@ impl<T> IndexMut<Position> for Grid<T> {
     }
 }
 
-impl<T: Copy> From<Vec<Vec<T>>> for Grid<T> {
-    fn from(elements: Vec<Vec<T>>) -> Self {
-        Self::new(elements)
-    }
-}
-
-impl FromStr for Grid<char> {
+impl<T: Copy + From<char>> FromStr for Grid<T> {
     type Err = !;
 
     fn from_str(s: &str) -> Result<Self, !> {
-        let elements = s.lines().map(|line| line.chars().collect()).collect();
-        Ok(Self { elements })
+        Ok(s.lines()
+            .map(|line| line.chars().map(T::from).collect())
+            .collect())
+    }
+}
+
+impl<T: Copy> FromIterator<Vec<T>> for Grid<T> {
+    fn from_iter<I: IntoIterator<Item = Vec<T>>>(iter: I) -> Self {
+        Self::new(iter.into_iter().collect())
     }
 }
