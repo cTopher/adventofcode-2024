@@ -20,6 +20,7 @@
       <sourceFolder url="file://$MODULE_DIR$/math-2d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day_15/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grid/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/day_17/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/day_01/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/day_" />
