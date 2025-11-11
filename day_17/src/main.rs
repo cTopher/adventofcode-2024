@@ -25,10 +25,8 @@ fn part_1(input: &str) -> String {
 
 fn part_2(input: &str) -> usize {
     let Ok(mut computer) = Computer::from_str(input);
-    let mut paths: Vec<_> = (0..8)
-        .rev()
-        .map(|a| (computer.program.len() - 1, a))
-        .collect();
+    let index = computer.program.len() - 1;
+    let mut paths: Vec<_> = (1..8).rev().map(|a| (index, a)).collect();
     while let Some((index, a)) = paths.pop() {
         computer.reset(a);
         let output = computer.run();
