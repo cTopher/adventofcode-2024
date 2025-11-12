@@ -3,8 +3,3 @@ Register B: 0
 Register C: 0
 
 Program: 0,3,5,4,3,0
-
-///
-03: A = A >> 3
-54: OUTPUT A
-30: IF A > 0: GOTO 0

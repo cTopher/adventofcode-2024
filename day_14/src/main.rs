@@ -9,8 +9,8 @@ pub use model::*;
 
 fn main() {
     let input = fs::read_to_string("day_14/input.txt").unwrap();
-    println!("Answer 1: {}", &part_1::<101, 103>(&input));
-    println!("Answer 2: {}", &part_2::<101, 103>(&input));
+    println!("Answer 1: {}", part_1::<101, 103>(&input));
+    println!("Answer 2: {}", part_2::<101, 103>(&input));
 }
 
 fn part_1<const W: usize, const H: usize>(input: &str) -> usize {

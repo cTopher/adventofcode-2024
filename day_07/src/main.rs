@@ -7,8 +7,8 @@ use std::fs;
 
 fn main() {
     let input = fs::read_to_string("day_07/input.txt").unwrap();
-    println!("Answer 1: {}", &part_1(&input));
-    println!("Answer 2: {}", &part_2(&input));
+    println!("Answer 1: {}", part_1(&input));
+    println!("Answer 2: {}", part_2(&input));
 }
 
 fn part_1(input: &str) -> u64 {
