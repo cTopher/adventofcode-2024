@@ -13,11 +13,21 @@ pub struct DirectionSet {
     left: bool,
 }
 
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+pub struct DirectionMap<T> {
+    up: T,
+    right: T,
+    down: T,
+    left: T,
+}
+
 impl Direction {
     pub const UP: Self = Self { di: -1, dj: 0 };
     pub const RIGHT: Self = Self { di: 0, dj: 1 };
     pub const DOWN: Self = Self { di: 1, dj: 0 };
     pub const LEFT: Self = Self { di: 0, dj: -1 };
+
+    pub const EAST: Self = Self::RIGHT;
 
     pub const ALL: [Self; 8] = [
         Self { di: -1, dj: -1 },
@@ -102,5 +112,36 @@ impl DirectionSet {
     #[must_use]
     pub const fn is_empty(&self) -> bool {
         !self.up && !self.right && !self.down && !self.left
+    }
+}
+
+impl<T: Copy> DirectionMap<T> {
+    pub const fn with_value(value: T) -> Self {
+        Self {
+            up: value,
+            right: value,
+            down: value,
+            left: value,
+        }
+    }
+
+    pub fn get(&self, direction: Direction) -> T {
+        match direction {
+            Direction::UP => self.up,
+            Direction::RIGHT => self.right,
+            Direction::DOWN => self.down,
+            Direction::LEFT => self.left,
+            _ => unimplemented!("Diagonal directions are not supported"),
+        }
+    }
+
+    pub fn set(&mut self, direction: Direction, value: T) {
+        match direction {
+            Direction::UP => self.up = value,
+            Direction::RIGHT => self.right = value,
+            Direction::DOWN => self.down = value,
+            Direction::LEFT => self.left = value,
+            _ => unimplemented!("Diagonal directions are not supported"),
+        }
     }
 }

@@ -23,6 +23,10 @@ impl<T: Copy> Grid<T> {
         self.elements.get_mut(i).and_then(|row| row.get_mut(j))
     }
 
+    pub fn iter(&self) -> impl Iterator<Item = T> + '_ {
+        self.elements.iter().flat_map(|row| row.iter()).copied()
+    }
+
     pub fn enumerate(&self) -> impl Iterator<Item = (Position, T)> + '_ {
         self.elements.iter().enumerate().flat_map(|(i, row)| {
             row.iter()

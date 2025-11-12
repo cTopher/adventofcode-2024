@@ -84,11 +84,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "day_17"
+name = "day_16"
 version = "0.1.0"
 dependencies = [
  "grid",
 ]
+
+[[package]]
+name = "day_17"
+version = "0.1.0"
 
 [[package]]
 name = "grid"
