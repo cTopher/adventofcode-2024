@@ -1,0 +1,10 @@
+[package]
+name = "day_18"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+fixed-grid.workspace = true
+
+[lints]
+workspace = true

@@ -6,6 +6,7 @@
 [workspace]
 members = [
     "grid",
+    "fixed-grid",
     "math-2d",
     "day_01",
     "day_02",
@@ -24,6 +25,7 @@ members = [
     "day_15",
     "day_16",
     "day_17",
+    "day_18",
 ]
 
 resolver = "3"
@@ -40,4 +42,5 @@ missing_panics_doc = "allow"
 
 [workspace.dependencies]
 grid = { path = "grid" }
+fixed-grid = { path = "fixed-grid" }
 math-2d = { path = "math-2d" }

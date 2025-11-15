@@ -95,6 +95,17 @@ name = "day_17"
 version = "0.1.0"
 
 [[package]]
+name = "day_18"
+version = "0.1.0"
+dependencies = [
+ "fixed-grid",
+]
+
+[[package]]
+name = "fixed-grid"
+version = "0.1.0"
+
+[[package]]
 name = "grid"
 version = "0.1.0"
 
