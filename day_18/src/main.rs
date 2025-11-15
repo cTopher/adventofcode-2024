@@ -1,5 +1,6 @@
 #![feature(never_type)]
 
+use fixed_grid::Coordinate;
 use std::fs;
 use std::str::FromStr;
 
@@ -9,17 +10,26 @@ pub use model::*;
 fn main() {
     let input = fs::read_to_string("day_18/input.txt").unwrap();
     println!("Answer 1: {}", part_1::<71>(&input, 1024));
-    println!("Answer 2: {}", part_2::<71>(&input));
+    let answer_2 = part_2::<71>(&input);
+    println!("Answer 2: {},{}", answer_2.x, answer_2.y);
 }
 
 fn part_1<const N: usize>(input: &str, simulation_size: usize) -> u32 {
     let Ok(mut computer) = Computer::<N>::from_str(input);
-    computer.simulate(simulation_size);
-    computer.shortest_safe_path().steps
+    for _ in 0..simulation_size {
+        computer.simulate();
+    }
+    computer.shortest_safe_path().unwrap().steps
 }
 
-fn part_2<const N: usize>(_input: &str) -> u32 {
-    0
+fn part_2<const N: usize>(input: &str) -> Coordinate<N> {
+    let Ok(mut computer) = Computer::<N>::from_str(input);
+    loop {
+        let position = computer.simulate();
+        if computer.shortest_safe_path().is_none() {
+            return position;
+        }
+    }
 }
 
 #[cfg(test)]
@@ -35,6 +45,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2::<7>(EXAMPLE), 0);
+        assert_eq!(part_2::<7>(EXAMPLE), Coordinate::new(6, 1));
     }
 }

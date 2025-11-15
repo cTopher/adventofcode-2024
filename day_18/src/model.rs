@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 use std::str::FromStr;
 
 pub struct Computer<const N: usize> {
-    incoming_byte_positions: Vec<Coordinate<N>>,
+    incoming_byte_positions: VecDeque<Coordinate<N>>,
     memory_space: Grid<ByteState, N>,
 }
 
@@ -23,14 +23,14 @@ pub struct Path<const N: usize> {
 impl<const N: usize> Computer<N> {
     const EXIT: Coordinate<N> = Coordinate::new(N - 1, N - 1);
 
-    pub fn simulate(&mut self, size: usize) {
-        for &position in self.incoming_byte_positions.iter().take(size) {
-            self.memory_space[position] = ByteState::Corrupted;
-        }
+    pub fn simulate(&mut self) -> Coordinate<N> {
+        let position = self.incoming_byte_positions.pop_front().unwrap();
+        self.memory_space[position] = ByteState::Corrupted;
+        position
     }
 
     #[must_use]
-    pub fn shortest_safe_path(&self) -> Path<N> {
+    pub fn shortest_safe_path(&self) -> Option<Path<N>> {
         let mut visited = Grid::<bool, N>::default();
         let mut paths = VecDeque::new();
         paths.push_back(Path::default());
@@ -39,7 +39,7 @@ impl<const N: usize> Computer<N> {
                 continue;
             }
             if path.position == Self::EXIT {
-                return path;
+                return Some(path);
             }
             visited[path.position] = true;
             path.position
@@ -52,7 +52,7 @@ impl<const N: usize> Computer<N> {
                     });
                 });
         }
-        panic!("No safe path found");
+        None
     }
 }
 
