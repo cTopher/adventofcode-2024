@@ -102,6 +102,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "day_19"
+version = "0.1.0"
+
+[[package]]
 name = "fixed-grid"
 version = "0.1.0"
 
