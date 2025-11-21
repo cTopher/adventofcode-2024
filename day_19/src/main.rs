@@ -17,8 +17,9 @@ fn part_1(input: &str) -> usize {
     towel_designs.count_possible_designs()
 }
 
-fn part_2(input: &str) -> u32 {
-    0
+fn part_2(input: &str) -> u64 {
+    let Ok(towel_designs) = TowelDesigns::from_str(input);
+    towel_designs.count_total_design_options()
 }
 
 #[cfg(test)]
@@ -34,6 +35,6 @@ mod tests {
 
     #[test]
     fn example_2() {
-        assert_eq!(part_2(EXAMPLE), 0);
+        assert_eq!(part_2(EXAMPLE), 16);
     }
 }

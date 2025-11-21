@@ -13,22 +13,29 @@ impl TowelDesigns {
 
     #[must_use]
     pub fn count_possible_designs(&self) -> usize {
-        let mut cache = self.create_cache();
+        let mut cache = Self::create_cache();
         self.designs
             .iter()
-            .filter(|design| self.validate_design(design, &mut cache))
+            .filter(|design| self.design_options(design, &mut cache) > 0)
             .count()
     }
 
-    fn create_cache(&self) -> HashMap<String, bool> {
+    #[must_use]
+    pub fn count_total_design_options(&self) -> u64 {
+        let mut cache = Self::create_cache();
+        self.designs
+            .iter()
+            .map(|design| self.design_options(design, &mut cache))
+            .sum()
+    }
+
+    fn create_cache() -> HashMap<String, u64> {
         let mut cache = HashMap::new();
-        for pattern in &self.patterns {
-            cache.insert(pattern.clone(), true);
-        }
+        cache.insert(String::new(), 1);
         cache
     }
 
-    fn validate_design(&self, design: &str, cache: &mut HashMap<String, bool>) -> bool {
+    fn design_options(&self, design: &str, cache: &mut HashMap<String, u64>) -> u64 {
         if let Some(&result) = cache.get(design) {
             return result;
         }
@@ -36,7 +43,8 @@ impl TowelDesigns {
             .patterns
             .iter()
             .filter_map(|pattern| design.strip_prefix(pattern))
-            .any(|design| self.validate_design(design, cache));
+            .map(|design| self.design_options(design, cache))
+            .sum();
         cache.insert(design.to_string(), result);
         result
     }
