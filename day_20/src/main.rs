@@ -9,17 +9,17 @@ pub use model::*;
 fn main() {
     let input = fs::read_to_string("day_20/input.txt").unwrap();
     println!("Answer 1: {}", part_1(&input, 100));
-    println!("Answer 2: {}", part_2(&input));
+    println!("Answer 2: {}", part_2(&input, 100));
 }
 
-fn part_1(input: &str, threshold: u32) -> usize {
+fn part_1(input: &str, threshold: usize) -> usize {
     let Ok(track) = RaceTrack::from_str(input);
-    track.count_cheats(threshold)
+    track.count_cheats(2, threshold)
 }
 
-fn part_2(input: &str, threshold: u32) -> usize {
+fn part_2(input: &str, threshold: usize) -> usize {
     let Ok(track) = RaceTrack::from_str(input);
-    track.count_cheats(threshold)
+    track.count_cheats(20, threshold)
 }
 
 #[cfg(test)]

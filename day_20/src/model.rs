@@ -1,4 +1,4 @@
-use grid::{Direction, Grid};
+use grid::Grid;
 use std::str::FromStr;
 
 pub struct RaceTrack {
@@ -6,35 +6,27 @@ pub struct RaceTrack {
 }
 
 impl RaceTrack {
-    const CHEAT_MOVES: [Direction; 8] = [
-        Direction::new(2, 0),
-        Direction::new(1, -1),
-        Direction::new(0, -2),
-        Direction::new(-1, -1),
-        Direction::new(-2, 0),
-        Direction::new(-1, 1),
-        Direction::new(0, 2),
-        Direction::new(1, 1),
-    ];
-
     #[must_use]
-    pub fn count_cheats(&self, threshold: u32) -> usize {
+    pub fn count_cheats(&self, duration: usize, picoseconds_saved: usize) -> usize {
         let times = self.run_picoseconds();
         times
             .enumerate()
             .filter_map(|(position, time)| time.map(|time| (position, time)))
             .map(|(p0, t0)| {
-                Self::CHEAT_MOVES
-                    .iter()
-                    .filter_map(|&movement| p0.checked_add(movement))
-                    .filter_map(|p2| times.get(p2).flatten())
-                    .filter(|t2| t2.saturating_sub(2).saturating_sub(t0) >= threshold)
+                times
+                    .enumerate()
+                    .filter_map(|(p1, t1)| t1.map(|t1| (p1, t1)))
+                    .filter(|&(p1, t1)| {
+                        let distance = p0.distance_to(p1);
+                        distance <= duration
+                            && t1.saturating_sub(distance).saturating_sub(t0) >= picoseconds_saved
+                    })
                     .count()
             })
             .sum()
     }
 
-    fn run_picoseconds(&self) -> Grid<Option<u32>> {
+    fn run_picoseconds(&self) -> Grid<Option<usize>> {
         let mut times = self.map.map(|_| None);
         let mut current = self.map.position(Tile::End).unwrap();
         let mut previous = current;

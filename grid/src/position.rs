@@ -36,6 +36,13 @@ impl Position {
             .into_iter()
             .filter_map(move |direction| self.checked_add(direction))
     }
+
+    #[must_use]
+    pub fn distance_to(&self, other: Self) -> usize {
+        let di = self.i.checked_signed_diff(other.i).unwrap().abs();
+        let dj = self.j.checked_signed_diff(other.j).unwrap().abs();
+        (di + dj).try_into().unwrap()
+    }
 }
 
 impl Add<Direction> for Position {
